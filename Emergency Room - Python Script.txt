@@ -1,0 +1,34 @@
+import pandas as pd
+import numpy as np
+
+# Load data
+file_path = r'C:/.../Hospital ER_Data.csv'
+dataset = pd.read_csv(file_path)
+
+# 1. Date and Time split
+# Convert to datetime format
+dataset['Patient Admission Date'] = pd.to_datetime(dataset['Patient Admission Date'], format='%d-%m-%Y %H:%M')
+
+# Separate into Date, Time and Day of Week
+dataset['Admission Date Only'] = dataset['Patient Admission Date'].dt.date
+dataset['Admission Time Only'] = dataset['Patient Admission Date'].dt.time
+dataset['Day of Week'] = dataset['Patient Admission Date'].dt.day_name()
+
+# 2. Age Grouping
+bins = [0, 12, 18, 30, 60, 120]
+labels = ['Child', 'Teen', 'Young Adult', 'Adult', 'Senior']
+dataset['Age Range'] = pd.cut(dataset['Patient Age'], bins=bins, labels=labels, right=True)
+
+# 3. Numeric Column Standardization
+dataset['Patient Satisfaction Score'] = pd.to_numeric(dataset['Patient Satisfaction Score'], errors='coerce')
+dataset['Patient Age'] = pd.to_numeric(dataset['Patient Age'], errors='coerce')
+dataset['Patient Waittime'] = pd.to_numeric(dataset['Patient Waittime'], errors='coerce')
+dataset['Patients CM'] = pd.to_numeric(dataset['Patients CM'], errors='coerce')
+
+# 4. Data Cleaning
+cols_to_strip = dataset.select_dtypes(include=['object']).columns
+for col in cols_to_strip:
+    dataset[col] = dataset[col].apply(lambda x: x.strip() if isinstance(x, str) else x)
+
+# Convert Age Range to string for Power BI compatibility, keeping nulls as "nan" or None
+dataset['Age Range'] = dataset['Age Range'].astype(str).replace('nan', np.nan)
