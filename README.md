@@ -21,3 +21,8 @@ In a real-world clinical setting, this would trigger an immediate audit of secon
 *   **Data Transformation:** Python (Exploratory Data Analysis - EDA) & Power Query (ETL) for cleaning synthetic medical records.
 *   **Analysis:** DAX measures for time-intelligence and dynamic KPI tracking.
 *   **UX/UI:** Custom-built background for high-readability in clinical environments.
+
+---
+**Author:** David Picazo  
+**Field:** Clinical Efficiency Specialist | Data Analyst  
+**Contact:** [da.picazo@gmail.com](mailto:da.picazo@gmail.com)
